@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Logo from "@/assets/svg/Logo.svg";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const initialFormValue = {
   name: "",
@@ -16,6 +17,7 @@ export default function Home() {
   const [formType, setFormType] = useState<string>("login");
   const [formData, setFormData] = useState<FormDataType>(initialFormValue);
   const [errorList, setErrorList] = useState<ErrorListType>(initialFormValue);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
@@ -34,6 +36,7 @@ export default function Home() {
     } else {
       setErrorList({});
       console.log(formData);
+      router.push("/categories");
     }
   };
 
