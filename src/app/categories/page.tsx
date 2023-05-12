@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import Banner from "@/assets/img/Banner.png";
-import { NextPage } from "next";
 import BookShowroom from "./components/BookShowroom";
+import Link from "next/link";
 
 interface CategoriesProp {
   category: {
@@ -32,7 +32,11 @@ async function Categories() {
           <div key={item.id} className="">
             <div className=" flex items-center justify-between">
               <h3 className="font-bold text-3xl">{item.name}</h3>
-              <div className="font-bold text-xl text-orange-400">View All</div>
+              <Link href={`/categories/${item.id}`}>
+                <span className="font-bold text-xl text-orange-400 hover:underline">
+                  View All
+                </span>
+              </Link>
             </div>
             {/* @ts-expect-error Async Server Component */}
             <BookShowroom id={item.id} />

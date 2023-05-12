@@ -24,7 +24,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className={inter.className}>
         <Provider store={store}>
           {pathname !== "/" ? <Header /> : null}
-          {children}
+          <>{children}</>
         </Provider>
       </body>
     </html>

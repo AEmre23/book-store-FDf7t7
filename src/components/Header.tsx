@@ -21,7 +21,13 @@ const Header = () => {
         alt="small-logo"
       />
       <div className="bg-bg-gray flex gap-3 px-5 py-1 min-w-[800px] rounded">
-        <Image src={Search} alt="Search-icon" className="w-auto h-auto" />
+        <Image
+          src={Search}
+          alt="Search-icon"
+          width={20}
+          height={44}
+          className="w-auto h-auto"
+        />
         <input
           type="search"
           placeholder="Search"
