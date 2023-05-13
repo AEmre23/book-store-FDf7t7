@@ -4,6 +4,8 @@ import Logo from "@/assets/svg/Logo.svg";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { handleLogin, handleRegister } from "@/services/userService";
+import { login, logout } from "@/redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const initialFormValue = {
   name: "",
@@ -21,6 +23,9 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [serverError, setServerError] = useState<string>("");
   const router = useRouter();
+  const isLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn);
+  const dispatch = useAppDispatch();
+  console.log(isLoggedIn);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;

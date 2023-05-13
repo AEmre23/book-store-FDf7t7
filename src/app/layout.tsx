@@ -1,10 +1,9 @@
 "use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { store } from "@/store/store";
-import { Provider } from "react-redux";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
+import { Providers } from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <Provider store={store}>
+        <Providers>
           {pathname !== "/" ? <Header /> : null}
           <>{children}</>
-        </Provider>
+        </Providers>
       </body>
     </html>
   );
