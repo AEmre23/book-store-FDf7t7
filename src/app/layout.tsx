@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import { Providers } from "@/redux/provider";
+import CheckAuth from "@/components/CheckAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         <Providers>
-          {pathname !== "/" ? <Header /> : null}
-          <>{children}</>
+          <CheckAuth>
+            {pathname !== "/" ? <Header /> : null}
+            <>{children}</>
+          </CheckAuth>
         </Providers>
       </body>
     </html>

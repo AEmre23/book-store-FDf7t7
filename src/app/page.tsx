@@ -25,7 +25,10 @@ export default function Home() {
   const router = useRouter();
   const isLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn);
   const dispatch = useAppDispatch();
-  console.log(isLoggedIn);
+  const ERROR_MESSAGES = {
+    invalidData: "Geçersiz bilgi, tekrar kontrol edin.",
+    serverError: "Sunucu hatası, daha sonra tekrar deneyin.",
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
@@ -48,26 +51,37 @@ export default function Home() {
   };
 
   const handleUserService = async (formType: string): Promise<any> => {
+    console.log(1);
     setLoading(true);
     try {
       if (formType === "login") {
-        const result = await handleLogin(formData.email, formData.password);
-        if (!result.action_login.message) router.push("/categories");
-        else setServerError("Geçersiz bilgi, tekrar kontrol edin.");
+        const response = await handleLogin(formData.email, formData.password);
+        handleResult(response, formData.rememberMe);
       } else {
-        const result = await handleRegister(
+        const response = await handleRegister(
           formData.email,
           formData.name,
           formData.password
         );
-        if (!result.action_login.message) router.push("/categories");
-        else setServerError("Geçersiz bilgi, tekrar kontrol edin.");
+        handleResult(response, false);
       }
     } catch (error) {
       console.error(error);
-      setServerError("Sunucu hatası, daha sonra tekrar deneyin.");
+      setServerError(ERROR_MESSAGES.serverError);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResult = (response: any, rememberMe: boolean) => {
+    if (!response.action_login.message) {
+      if (rememberMe) {
+        document.cookie = `token=${response.action_login.token}; path=/;`;
+      }
+      router.push("/categories");
+      dispatch(login());
+    } else {
+      setServerError(ERROR_MESSAGES.invalidData);
     }
   };
 
@@ -87,30 +101,31 @@ export default function Home() {
     return error;
   };
 
-  const handleFormType = () => {
+  const handleChangeFormType = () => {
     if (formType === "login") setFormType("register");
     else setFormType("login");
     setFormData(initialFormValue);
     setErrorList({});
+    setServerError("");
   };
 
   return (
     <main className="max-h-screen max-w-screen flex">
       <div className="h-screen w-1/2 bg-[url('../assets/img/background.png')] bg-cover bg-center bg-no-repeat" />
-      <div className="h-screen w-1/2 px-32 py-8 flex flex-col items-center justify-around gap-6">
+      <div className="h-screen w-1/2 px-32 py-8 flex flex-col items-center justify-evenly gap-6">
         <div className="flex items-center">
           <Image src={Logo} alt="logo" />
         </div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-8">
             <div className="text-left">
-              <h2 className="text-2xl font-semibold text-gray-500">
+              <h2 className="text-lg font-semibold text-gray-500">
                 Welcome back!
               </h2>
-              <h1 className="text-3xl font-bold mt-3">Login to your account</h1>
+              <h1 className="text-2xl font-bold mt-1">Login to your account</h1>
             </div>
             {formType === "register" ? (
-              <div className="flex flex-col gap-3 text-xl relative">
+              <div className="flex flex-col gap-3 text-lg relative">
                 <label className="font-semibold">Name</label>
                 <input
                   className="bg-[#F4F4FF] rounded-lg px-6 py-4 min-w-[400px]"
@@ -127,7 +142,7 @@ export default function Home() {
                 ) : null}
               </div>
             ) : null}
-            <div className="flex flex-col gap-3 text-xl relative">
+            <div className="flex flex-col gap-3 text-lg relative">
               <label className="font-semibold">E-mail</label>
               <input
                 className="bg-[#F4F4FF] rounded-lg px-6 py-4 min-w-[400px]"
@@ -143,7 +158,7 @@ export default function Home() {
                 </small>
               ) : null}
             </div>
-            <div className="flex flex-col gap-3 text-xl relative">
+            <div className="flex flex-col gap-3 text-lg relative">
               <label className="font-semibold">Password</label>
               <input
                 className="bg-[#F4F4FF] rounded-lg px-6 py-4 min-w-[400px]"
@@ -180,18 +195,18 @@ export default function Home() {
               </div>
             ) : null}
           </div>
-          <div className="flex flex-col items-center gap-2 pt-8">
+          <div className="flex flex-col items-center gap-2 pt-4">
             <button
               disabled={loading}
-              className="w-full disabled:opacity-10 py-3 rounded-md bg-orange-500 text-white font-semibold text-xl duration-300 hover:shadow active:scale-95"
+              className="w-full disabled:opacity-10 py-3 rounded-md bg-orange-500 text-white font-semibold text-lg duration-300 hover:shadow active:scale-95"
             >
               {formType === "login" ? "Login" : "Register"}
             </button>
             <button
               disabled={loading}
               type="button"
-              onClick={handleFormType}
-              className="w-full py-3 rounded-md border disabled:opacity-10 border-solid border-purple-700 text-purple-700 font-semibold text-xl duration-300 hover:shadow active:scale-95"
+              onClick={handleChangeFormType}
+              className="w-full py-3 rounded-md border disabled:opacity-10 border-solid border-purple-700 text-purple-700 font-semibold text-lg duration-300 hover:shadow active:scale-95"
             >
               {formType === "login" ? "Register" : "Login"}
             </button>

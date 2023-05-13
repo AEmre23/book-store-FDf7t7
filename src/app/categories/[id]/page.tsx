@@ -24,7 +24,7 @@ async function Category(props: CategoryProp) {
 
   return (
     <div className="w-full flex items-center justify-center">
-      <div className="mx-16 my-16 max-w-7xl">
+      <div className="mx-16 mb-6 max-w-7xl">
         <div
           onClick={() => router.push("/categories")}
           className="text-2xl font-bold flex items-center gap-2 cursor-pointer mb-8 w-fit group"
