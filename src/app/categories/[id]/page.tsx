@@ -17,7 +17,7 @@ async function Category({ params }: { params: { id: string } }) {
   const categoryArray = await getCategories();
 
   const selectedCategory =
-    categoryArray.category.find((item: any) => +item.id === +params.id) ||
+    categoryArray.category.find((item) => +item.id === +params.id) ||
     categoryArray.category[0];
 
   return (
@@ -35,7 +35,7 @@ async function Category({ params }: { params: { id: string } }) {
           {selectedCategory.name}
         </div>
         <div className="grid grid-cols-4 gap-8 items-center justify-center">
-          {category.product.map((item: any) => {
+          {category.product.map((item) => {
             const data = { id: params.id, bookId: item.id };
             return (
               <Link

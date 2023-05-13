@@ -10,7 +10,7 @@ export default async function BookShowroom({ id }: { id: string }) {
 
   return (
     <div className="flex gap-3 items-center pt-5">
-      {Books.product.slice(0, 4).map((item: any) => {
+      {Books.product.slice(0, 4).map((item) => {
         const data = { id, bookId: item.id };
         return (
           <Link

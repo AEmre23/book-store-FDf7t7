@@ -10,6 +10,8 @@ import Logo from "@/assets/svg/Logo.svg";
 import { handleLogin, handleRegister } from "@/services/userService";
 /** Slices */
 import { login } from "@/redux/features/authSlice";
+/** Types */
+import { LogAndReg } from "@/types";
 
 const initialFormValue = {
   name: "",
@@ -53,7 +55,7 @@ export default function Home() {
     }
   };
 
-  const handleUserService = async (formType: string): Promise<any> => {
+  const handleUserService = async (formType: string) => {
     setLoading(true);
     try {
       if (formType === "login") {
@@ -75,15 +77,20 @@ export default function Home() {
     }
   };
 
-  const handleResult = (response: any, rememberMe: boolean) => {
-    if (!response.action_login.message) {
-      if (rememberMe) {
-        document.cookie = `token=${response.action_login.token}; path=/;`;
+  const handleResult = (response: LogAndReg, rememberMe: boolean) => {
+    if ("action_login" in response) {
+      if (!response.action_login.message) {
+        if (rememberMe) {
+          document.cookie = `token=${response.action_login.token}; path=/;`;
+        }
+        router.push("/categories");
+        dispatch(login());
+      } else {
+        setServerError(ERROR_MESSAGES.invalidData);
       }
+    } else {
       router.push("/categories");
       dispatch(login());
-    } else {
-      setServerError(ERROR_MESSAGES.invalidData);
     }
   };
 

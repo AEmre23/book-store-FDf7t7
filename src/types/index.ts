@@ -26,3 +26,22 @@ export type CategoriesArrayType = {
     created_at: string;
   }[];
 };
+
+export interface RegisterAction {
+  action_register: {
+    created_at: string;
+    email: string;
+    şifre: string;
+    id: number;
+    name: string;
+  };
+}
+
+export interface LoginAction {
+  action_login: {
+    message: string;
+    token: string;
+  };
+}
+
+export type LogAndReg = LoginAction | RegisterAction;
