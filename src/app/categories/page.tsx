@@ -1,17 +1,14 @@
 "use client";
+/** Dependencies */
 import Image from "next/image";
 import React from "react";
-import Banner from "@/assets/img/Banner.png";
-import BookShowroom from "./components/BookShowroom";
 import Link from "next/link";
-
-interface CategoriesProp {
-  category: {
-    id: number;
-    name: string;
-    created_at: string;
-  }[];
-}
+/** Assets */
+import Banner from "@/assets/img/Banner.png";
+/** Components */
+import BookShowroom from "./components/BookShowroom";
+/** Functions */
+import { getCategories } from "@/utils/fetchFunctions";
 
 async function Categories() {
   const categories = await getCategories();
@@ -48,9 +45,3 @@ async function Categories() {
 }
 
 export default Categories;
-
-async function getCategories(): Promise<CategoriesProp> {
-  const CATEGORY_URL = "https://assign-api.piton.com.tr/api/rest/categories";
-  const res = await fetch(CATEGORY_URL);
-  return res.json();
-}

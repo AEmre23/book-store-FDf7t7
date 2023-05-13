@@ -1,13 +1,12 @@
-import BookCoverImage from "@/components/BookCoverImage";
+/** Dependencies */
 import Link from "next/link";
+/** Functions */
+import { getBooksById } from "@/utils/fetchFunctions";
+/** Components */
+import BookCoverImage from "@/components/BookCoverImage";
 
-type BookShowroomType = {
-  id: string;
-};
-
-export default async function BookShowroom(props: BookShowroomType) {
-  const { id } = props;
-  const Books = await getBooks(id);
+export default async function BookShowroom({ id }: { id: string }) {
+  const Books = await getBooksById(id);
 
   return (
     <div className="flex gap-3 items-center pt-5">
@@ -40,11 +39,4 @@ export default async function BookShowroom(props: BookShowroomType) {
       })}
     </div>
   );
-}
-
-async function getBooks(id: string) {
-  const BOOKS_URL = `https://assign-api.piton.com.tr/api/rest/products/${id}`;
-
-  const res = await fetch(BOOKS_URL);
-  return res.json();
 }

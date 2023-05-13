@@ -1,11 +1,13 @@
+/** Dependencies */
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+/** Assets */
 import Logo from "@/assets/svg/Logo.svg";
 import Profile from "@/assets/svg/Profile.svg";
 import Heart from "@/assets/svg/Heart.svg";
 import Shop from "@/assets/svg/Shop.svg";
 import Search from "@/assets/svg/Search.svg";
-import { useRouter } from "next/navigation";
 
 const Header = () => {
   const ICONS = [Profile, Heart, Shop];

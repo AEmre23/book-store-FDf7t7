@@ -1,13 +1,9 @@
 "use client";
+/** Dependencies */
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type BookCoverImageProps = {
-  bookName: string;
-};
-
-export default function BookCoverImage(props: BookCoverImageProps) {
-  const { bookName } = props;
+export default function BookCoverImage({ bookName }: { bookName: string }) {
   const [image_url, setImageUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 

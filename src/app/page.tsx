@@ -1,11 +1,15 @@
 "use client";
+/** Dependencies */
 import Image from "next/image";
-import Logo from "@/assets/svg/Logo.svg";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAppDispatch } from "@/redux/hooks";
+/** Assets */
+import Logo from "@/assets/svg/Logo.svg";
+/** Services */
 import { handleLogin, handleRegister } from "@/services/userService";
-import { login, logout } from "@/redux/features/authSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+/** Slices */
+import { login } from "@/redux/features/authSlice";
 
 const initialFormValue = {
   name: "",
@@ -23,7 +27,6 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [serverError, setServerError] = useState<string>("");
   const router = useRouter();
-  const isLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn);
   const dispatch = useAppDispatch();
   const ERROR_MESSAGES = {
     invalidData: "Geçersiz bilgi, tekrar kontrol edin.",
@@ -51,7 +54,6 @@ export default function Home() {
   };
 
   const handleUserService = async (formType: string): Promise<any> => {
-    console.log(1);
     setLoading(true);
     try {
       if (formType === "login") {
@@ -104,6 +106,7 @@ export default function Home() {
   const handleChangeFormType = () => {
     if (formType === "login") setFormType("register");
     else setFormType("login");
+
     setFormData(initialFormValue);
     setErrorList({});
     setServerError("");

@@ -1,26 +1,24 @@
 "use client";
+/** Dependencies */
 import React from "react";
-import Arrow from "@/assets/svg/Arrow.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import BookCoverImage from "@/components/BookCoverImage";
 import Link from "next/link";
+/** Assets */
+import Arrow from "@/assets/svg/Arrow.svg";
+/** Components */
+import BookCoverImage from "@/components/BookCoverImage";
+/** Functions */
+import { getCategories, getBooksById } from "@/utils/fetchFunctions";
 
-interface CategoryProp {
-  params: {
-    id: string;
-  };
-}
-
-async function Category(props: CategoryProp) {
-  const { params } = props;
+async function Category({ params }: { params: { id: string } }) {
   const router = useRouter();
-  const category = await getCategory(params.id);
+  const category = await getBooksById(params.id);
   const categoryArray = await getCategories();
 
-  const selectedCategory = categoryArray.category.find(
-    (item: any) => +item.id === +params.id
-  );
+  const selectedCategory =
+    categoryArray.category.find((item: any) => +item.id === +params.id) ||
+    categoryArray.category[0];
 
   return (
     <div className="w-full flex items-center justify-center">
@@ -73,15 +71,3 @@ async function Category(props: CategoryProp) {
 }
 
 export default Category;
-
-async function getCategory(id: string) {
-  const CATEGORY_URL = `https://assign-api.piton.com.tr/api/rest/products/${id}`;
-  const res = await fetch(CATEGORY_URL);
-  return await res.json();
-}
-
-async function getCategories() {
-  const CATEGORIES_URL = `https://assign-api.piton.com.tr/api/rest/categories`;
-  const res = await fetch(CATEGORIES_URL);
-  return await res.json();
-}

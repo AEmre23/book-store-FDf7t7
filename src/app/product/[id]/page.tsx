@@ -1,30 +1,17 @@
 "use client";
-import BookCoverImage from "@/components/BookCoverImage";
-import { useRouter, useSearchParams } from "next/navigation";
+/** Dependencies */
 import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+/** Assets */
 import Arrow from "@/assets/svg/Arrow.svg";
 import Image from "next/image";
 import Heart from "@/assets/svg/Heart.svg";
-
-interface Books {
-  product: Book[];
-}
-type Book = {
-  author: string;
-  cover: string;
-  created_at: string;
-  description: string;
-  id: number;
-  name: string;
-  price: number;
-  sales: number;
-  slug: string;
-  likes_aggregate: {
-    aggregate: {
-      count: number;
-    };
-  };
-};
+/** Components */
+import BookCoverImage from "@/components/BookCoverImage";
+/** Types */
+import { BookType } from "@/types";
+/** Functions */
+import { getBooksById } from "@/utils/fetchFunctions";
 
 async function ProductPage() {
   const searchParams = useSearchParams();
@@ -32,12 +19,12 @@ async function ProductPage() {
   const id = searchParams.get("id") || "1";
   const bookId = searchParams.get("bookId") || "1";
 
-  const categories = await getCategories(id);
-  const book: Book =
+  const categories = await getBooksById(id);
+  const book: BookType =
     categories.product.find((item) => +item.id === +bookId) ||
     categories.product[0];
-  if (!book) return <div>No data...</div>;
 
+  if (!book) return <div>No data...</div>;
   return (
     <div className="w-full flex items-center justify-center">
       <div className="mx-16 my-1 max-w-7xl">
@@ -88,9 +75,3 @@ async function ProductPage() {
 }
 
 export default ProductPage;
-
-async function getCategories(id: string): Promise<Books> {
-  const CATEGORY_URL = `https://assign-api.piton.com.tr/api/rest/products/${id}`;
-  const res = await fetch(CATEGORY_URL);
-  return res.json();
-}
