@@ -3,12 +3,13 @@ import Image from "next/image";
 import Logo from "@/assets/svg/Logo.svg";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { handleLogin, handleRegister } from "@/services/userService";
 
 const initialFormValue = {
   name: "",
   email: "",
   password: "",
-  rememberMe: false,
+  rememberMe: true,
 };
 type FormDataType = typeof initialFormValue;
 type ErrorListType = Partial<FormDataType>;
@@ -17,6 +18,8 @@ export default function Home() {
   const [formType, setFormType] = useState<string>("login");
   const [formData, setFormData] = useState<FormDataType>(initialFormValue);
   const [errorList, setErrorList] = useState<ErrorListType>(initialFormValue);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [serverError, setServerError] = useState<string>("");
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +38,31 @@ export default function Home() {
       setErrorList(errors);
     } else {
       setErrorList({});
-      console.log(formData);
-      router.push("/categories");
+      handleUserService(formType);
+    }
+  };
+
+  const handleUserService = async (formType: string): Promise<any> => {
+    setLoading(true);
+    try {
+      if (formType === "login") {
+        const result = await handleLogin(formData.email, formData.password);
+        if (!result.action_login.message) router.push("/categories");
+        else setServerError("Geçersiz bilgi, tekrar kontrol edin.");
+      } else {
+        const result = await handleRegister(
+          formData.email,
+          formData.name,
+          formData.password
+        );
+        if (!result.action_login.message) router.push("/categories");
+        else setServerError("Geçersiz bilgi, tekrar kontrol edin.");
+      }
+    } catch (error) {
+      console.error(error);
+      setServerError("Sunucu hatası, daha sonra tekrar deneyin.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,7 +155,7 @@ export default function Home() {
               ) : null}
             </div>
             {formType === "login" ? (
-              <div className="text-purple-700 font-semibold flex items-center gap-2">
+              <div className="text-purple-700 font-semibold flex items-center gap-2 relative">
                 <input
                   className="accent-purple-700 w-4 h-4 cursor-pointer"
                   type="checkbox"
@@ -141,17 +167,26 @@ export default function Home() {
                 <label className="cursor-pointer" htmlFor="checkbox">
                   Remember Me
                 </label>
+                {serverError ? (
+                  <small className="absolute -bottom-6 left-2 text-sm font-semibold text-red-500">
+                    {serverError}
+                  </small>
+                ) : null}
               </div>
             ) : null}
           </div>
           <div className="flex flex-col items-center gap-2 pt-8">
-            <button className="w-full py-3 rounded-md bg-orange-500 text-white font-semibold text-xl duration-300 hover:shadow active:scale-95">
+            <button
+              disabled={loading}
+              className="w-full disabled:opacity-10 py-3 rounded-md bg-orange-500 text-white font-semibold text-xl duration-300 hover:shadow active:scale-95"
+            >
               {formType === "login" ? "Login" : "Register"}
             </button>
             <button
+              disabled={loading}
               type="button"
               onClick={handleFormType}
-              className="w-full py-3 rounded-md border border-solid border-purple-700 text-purple-700 font-semibold text-xl duration-300 hover:shadow active:scale-95"
+              className="w-full py-3 rounded-md border disabled:opacity-10 border-solid border-purple-700 text-purple-700 font-semibold text-xl duration-300 hover:shadow active:scale-95"
             >
               {formType === "login" ? "Register" : "Login"}
             </button>
