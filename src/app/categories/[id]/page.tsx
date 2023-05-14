@@ -31,36 +31,27 @@ async function Category({ params }: { params: { id: string } }) {
           </div>
         </Link>
         <div className="grid grid-cols-4 gap-8 items-center justify-center">
-          {category.product.map((item) => {
-            const data = { id: params.id, bookId: item.id };
-            return (
-              <Link
-                key={item.id}
-                href={{
-                  pathname: `/product/${item.slug}`,
-                  query: data,
-                }}
-              >
-                <div className="flex flex-col gap-1 px-4 py-2 bg-bg-gray rounded w-[300px] shadow-sm duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-2">
-                  <div className="w-full flex items-center justify-center">
-                    <div className="w-[200px] h-[300px] relative">
-                      {/* @ts-expect-error Async Server Component */}
-                      <BookCoverImage bookName={item.cover} />
-                    </div>
-                  </div>
-                  <div className="font-bold text-xl text-left truncate max-w-[260px] capitalize">
-                    {item.name}
-                  </div>
-                  <div className="flex items-center justify-between w-full font-semibold">
-                    <span className="text-gray-400 text-sm">{item.author}</span>
-                    <span className="text-purple-700 text-lg">
-                      {item.price} $
-                    </span>
+          {category.product.map((item) => (
+            <Link key={item.id} href={`/product/${params.id}_${item.slug}`}>
+              <div className="flex flex-col gap-1 px-4 py-2 bg-bg-gray rounded w-[300px] shadow-sm duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-2">
+                <div className="w-full flex items-center justify-center">
+                  <div className="w-[200px] h-[300px] relative">
+                    {/* @ts-expect-error Async Server Component */}
+                    <BookCoverImage bookName={item.cover} />
                   </div>
                 </div>
-              </Link>
-            );
-          })}
+                <div className="font-bold text-xl text-left truncate max-w-[260px] capitalize">
+                  {item.name}
+                </div>
+                <div className="flex items-center justify-between w-full font-semibold">
+                  <span className="text-gray-400 text-sm">{item.author}</span>
+                  <span className="text-purple-700 text-lg">
+                    {item.price} $
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
