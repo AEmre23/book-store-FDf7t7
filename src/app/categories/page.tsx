@@ -1,4 +1,3 @@
-"use client";
 /** Dependencies */
 import Image from "next/image";
 import React from "react";

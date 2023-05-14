@@ -1,7 +1,9 @@
+"use client";
 /** Dependencies */
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 /** Assets */
 import Logo from "@/assets/svg/Logo.svg";
 import Profile from "@/assets/svg/Profile.svg";
@@ -11,17 +13,19 @@ import Search from "@/assets/svg/Search.svg";
 
 const Header = () => {
   const ICONS = [Profile, Heart, Shop];
-  const router = useRouter();
+  const pathname = usePathname();
+  if (pathname === "/") return;
   return (
     <nav className="w-full px-12 py-5 shadow-sm flex justify-between sticky z-10 top-0 mb-5 bg-white">
-      <Image
-        onClick={() => router.push("/categories")}
-        className="cursor-pointer w-[60px] h-[40px]"
-        src={Logo}
-        width={60}
-        height={40}
-        alt="small-logo"
-      />
+      <Link href={"/categories"}>
+        <Image
+          className="cursor-pointer w-[60px] h-[40px]"
+          src={Logo}
+          width={60}
+          height={40}
+          alt="small-logo"
+        />
+      </Link>
       <div className="bg-bg-gray flex gap-3 px-5 py-1 min-w-[800px] rounded">
         <Image
           src={Search}

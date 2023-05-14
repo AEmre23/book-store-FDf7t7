@@ -1,8 +1,6 @@
-"use client";
 /** Dependencies */
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 /** Assets */
 import Arrow from "@/assets/svg/Arrow.svg";
@@ -12,7 +10,6 @@ import BookCoverImage from "@/components/BookCoverImage";
 import { getCategories, getBooksById } from "@/utils/fetchFunctions";
 
 async function Category({ params }: { params: { id: string } }) {
-  const router = useRouter();
   const category = await getBooksById(params.id);
   const categoryArray = await getCategories();
 
@@ -23,17 +20,16 @@ async function Category({ params }: { params: { id: string } }) {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="mx-16 mb-6 max-w-7xl">
-        <div
-          onClick={() => router.back()}
-          className="text-2xl font-bold flex items-center gap-2 cursor-pointer mb-8 w-fit group"
-        >
-          <Image
-            className="duration-300 group-hover:-translate-x-1.5"
-            src={Arrow}
-            alt="arrow-icon"
-          />
-          {selectedCategory.name}
-        </div>
+        <Link href={"/categories"}>
+          <div className="text-2xl font-bold flex items-center gap-2 cursor-pointer mb-8 w-fit group">
+            <Image
+              className="duration-300 group-hover:-translate-x-1.5"
+              src={Arrow}
+              alt="arrow-icon"
+            />
+            {selectedCategory.name}
+          </div>
+        </Link>
         <div className="grid grid-cols-4 gap-8 items-center justify-center">
           {category.product.map((item) => {
             const data = { id: params.id, bookId: item.id };

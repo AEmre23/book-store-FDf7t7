@@ -24,7 +24,6 @@ export async function getBookCoverImage(
     "https://assign-api.piton.com.tr/api/rest/cover_image",
     {
       method: "POST",
-      cache: "default",
       headers: {
         "Content-Type": "application/json",
       },

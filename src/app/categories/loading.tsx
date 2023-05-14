@@ -8,8 +8,8 @@ const Loading = () => {
         {[...Array(3)].map((_, index) => (
           <div key={index} className="flex flex-col gap-4 w-full">
             <div className="bg-slate-100 rounded-md w-44 h-8 animate-pulse" />
-            <div className="flex gap-3 w-full">
-              {[...Array(3)].map((_, index) => (
+            <div className="flex gap-2 w-full">
+              {[...Array(4)].map((_, index) => (
                 <div
                   key={index + 3}
                   className="bg-slate-100 rounded-md w-full h-44 animate-pulse"
