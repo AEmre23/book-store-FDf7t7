@@ -24,7 +24,7 @@ async function Categories() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-14 mt-12 w-full  max-w-[1350px]">
+      <div className="flex flex-col gap-14 mt-12 w-full max-w-[1350px]">
         {categories.category.map((item) => (
           <div key={item.id} className="">
             <div className=" flex items-center justify-between">

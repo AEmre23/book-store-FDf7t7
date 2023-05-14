@@ -22,6 +22,7 @@ export default async function BookShowroom({ id }: { id: string }) {
           >
             <div className="flex gap-5 p-2 bg-bg-gray rounded duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
               <div className="flex items-center justify-center w-32 h-44 relative">
+                {/* @ts-expect-error Async Server Component */}
                 <BookCoverImage bookName={item.cover} />
               </div>
               <div className="flex flex-col justify-between py-2">

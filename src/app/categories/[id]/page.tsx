@@ -24,7 +24,7 @@ async function Category({ params }: { params: { id: string } }) {
     <div className="w-full flex items-center justify-center">
       <div className="mx-16 mb-6 max-w-7xl">
         <div
-          onClick={() => router.push("/categories")}
+          onClick={() => router.back()}
           className="text-2xl font-bold flex items-center gap-2 cursor-pointer mb-8 w-fit group"
         >
           <Image
@@ -48,6 +48,7 @@ async function Category({ params }: { params: { id: string } }) {
                 <div className="flex flex-col gap-1 px-4 py-2 bg-bg-gray rounded w-[300px] shadow-sm duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-2">
                   <div className="w-full flex items-center justify-center">
                     <div className="w-[200px] h-[300px] relative">
+                      {/* @ts-expect-error Async Server Component */}
                       <BookCoverImage bookName={item.cover} />
                     </div>
                   </div>

@@ -1,55 +1,22 @@
 "use client";
 /** Dependencies */
 import Image from "next/image";
-import { useEffect, useState } from "react";
+/** Functions */
+import { getBookCoverImage } from "@/utils/fetchFunctions";
 
-export default function BookCoverImage({ bookName }: { bookName: string }) {
-  const [image_url, setImageUrl] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchImage = async () => {
-      if (bookName) {
-        const imageUrl = await getBookCoverImage(bookName);
-        setImageUrl(imageUrl);
-        setLoading(false);
-      }
-    };
-    fetchImage();
-  }, [bookName]);
-
+export default async function BookCoverImage({
+  bookName,
+}: {
+  bookName: string;
+}) {
+  const image_obj = await getBookCoverImage(bookName);
+  const image_url = image_obj.action_product_image.url;
   return (
-    <>
-      {!loading ? (
-        <Image
-          src={image_url}
-          fill={true}
-          sizes="(max-width: 768px) 100px, (max-width: 1200px) 300px"
-          alt="Book-cover"
-        />
-      ) : (
-        <div className="w-full h-full bg-slate-200 animate-pulse rounded flex items-center justify-center" />
-      )}
-    </>
+    <Image
+      src={image_url}
+      fill={true}
+      sizes="(max-width: 768px) 100px, (max-width: 1200px) 300px"
+      alt="Book-cover"
+    />
   );
-}
-
-async function getBookCoverImage(bookName: string) {
-  try {
-    const data = { fileName: bookName };
-    const response = await fetch(
-      "https://assign-api.piton.com.tr/api/rest/cover_image",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
-    const result = await response.json();
-    return result.action_product_image.url;
-  } catch (error) {
-    console.error(error);
-  }
 }

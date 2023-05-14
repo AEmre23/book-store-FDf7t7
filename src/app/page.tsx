@@ -122,7 +122,7 @@ export default function Home() {
   return (
     <main className="max-h-screen max-w-screen flex">
       <div className="h-screen w-1/2 bg-[url('../assets/img/background.png')] bg-cover bg-center bg-no-repeat" />
-      <div className="h-screen w-1/2 px-32 py-8 flex flex-col items-center justify-evenly gap-6">
+      <div className="h-screen overflow-y-auto w-1/2 px-32 py-8 flex flex-col items-center justify-evenly gap-6">
         <div className="flex items-center">
           <Image src={Logo} alt="logo" />
         </div>

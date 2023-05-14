@@ -45,3 +45,9 @@ export interface LoginAction {
 }
 
 export type LogAndReg = LoginAction | RegisterAction;
+
+export interface GetCoverImageAction {
+  action_product_image: {
+    url: string;
+  };
+}

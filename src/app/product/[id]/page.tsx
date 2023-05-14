@@ -29,7 +29,7 @@ async function ProductPage() {
     <div className="w-full flex items-center justify-center">
       <div className="mx-16 my-1 max-w-7xl">
         <div
-          onClick={() => router.push("/categories")}
+          onClick={() => router.back()}
           className="text-2xl font-bold flex items-center gap-2 cursor-pointer mb-8 w-fit group"
         >
           <Image
@@ -42,6 +42,7 @@ async function ProductPage() {
         <div className="flex gap-12">
           <div className="p-8 rounded bg-bg-gray flex items-center justify-center">
             <div className="relative w-[300px] h-[450px]">
+              {/* @ts-expect-error Async Server Component */}
               <BookCoverImage bookName={book.cover} />
             </div>
           </div>
