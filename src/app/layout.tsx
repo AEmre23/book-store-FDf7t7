@@ -11,7 +11,7 @@ import { Providers } from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+const metadata = {
   title: "PITON Book Store",
   description: "Created by Emre Altunkaya",
 };
